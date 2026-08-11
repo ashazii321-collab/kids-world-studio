@@ -12,14 +12,32 @@ jobs:
       - name: Get project
         uses: actions/checkout@v4
 
-      - name: Extract Flutter project
+      - name: Find and Extract Flutter project
         run: |
-          unzip -o kids-world-studio-flutter.zip -d source
+          mkdir -p source
 
-      - name: Find Flutter project
-        run: |
-          PROJECT_DIR=$(find source -name pubspec.yaml -printf '%h\n' | head -1)
-          echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
+          ZIP_FILE=$(find . -maxdepth 2 -type f -name "*.zip" -print -quit)
+
+          if [ -z "$ZIP_FILE" ]; then
+            echo "ERROR: No ZIP file found"
+            find . -maxdepth 2 -type f
+            exit 1
+          fi
+
+          echo "ZIP found: $ZIP_FILE"
+          unzip -o "$ZIP_FILE" -d source
+
+          PUBSPEC=$(find source -name pubspec.yaml -print -quit)
+
+          if [ -z "$PUBSPEC" ]; then
+            echo "ERROR: pubspec.yaml not found"
+            find source -maxdepth 4 -type f
+            exit 1
+          fi
+
+          PROJECT_DIR=$(dirname "$PUBSPEC")
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+          echo "Flutter project: $PROJECT_DIR"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -31,10 +49,10 @@ jobs:
         run: |
           flutter create --platforms=android kids_world_app
 
-      - name: Copy app files
+      - name: Copy Flutter app
         run: |
-          cp -r "$PROJECT_DIR/lib" kids_world_app/
           cp "$PROJECT_DIR/pubspec.yaml" kids_world_app/
+          cp -r "$PROJECT_DIR/lib" kids_world_app/
 
           if [ -d "$PROJECT_DIR/assets" ]; then
             cp -r "$PROJECT_DIR/assets" kids_world_app/
