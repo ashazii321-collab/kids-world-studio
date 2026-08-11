@@ -13,108 +13,20 @@ class KidsWorldApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Kids World',
       theme: ThemeData(
-        fontFamily: 'Arial',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        fontFamily: 'Arial',
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6C4BFF),
+        ),
       ),
-      home: const SplashScreen(),
+      home: const HomeScreen(),
     );
   }
 }
 
-// ================= SPLASH =================
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff61C8F5), Color(0xffBCEBFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                '🌈',
-                style: TextStyle(fontSize: 70),
-              ),
-              const Text(
-                'KIDS\nWORLD',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                  height: .95,
-                  shadows: [
-                    Shadow(
-                      color: Colors.deepPurple,
-                      blurRadius: 4,
-                      offset: Offset(2, 3),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Learn • Play • Grow',
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              const SizedBox(height: 45),
-              const Text(
-                '👦',
-                style: TextStyle(fontSize: 100),
-              ),
-              const SizedBox(height: 35),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const HomeScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(240, 55),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'I Already Have an Account',
-                style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ================= HOME =================
+// ------------------------------------------------------------
+// HOME
+// ------------------------------------------------------------
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -124,958 +36,454 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selected = 0;
+  int points = 150;
+  int streak = 3;
+  int completed = 4;
 
-  final pages = const [
-    HomeContent(),
-    LearnScreen(),
-    GamesScreen(),
-    RewardsScreen(),
-    ProfileScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[selected],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selected,
-        onDestinationSelected: (i) => setState(() => selected = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.menu_book), label: 'Learn'),
-          NavigationDestination(icon: Icon(Icons.games), label: 'Games'),
-          NavigationDestination(icon: Icon(Icons.emoji_events), label: 'Rewards'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= HOME CONTENT =================
-
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Hello, Ali 👋',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.orange.shade100,
-                  child: const Text('⭐'),
-                )
-              ],
-            ),
-            const Text(
-              "Let's learn something new!",
-              style: TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xff138BEA), Color(0xff54B9FF)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                children: [
-                  Text('👦', style: TextStyle(fontSize: 65)),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Today's Goal",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'Learn 5 new things',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        LinearProgressIndicator(value: .6),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 25),
-            const Text(
-              'Explore Categories',
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              children: const [
-                CategoryCard('🔤', 'Alphabet', Colors.purple),
-                CategoryCard('123', 'Numbers', Colors.green),
-                CategoryCard('🎨', 'Colors', Colors.orange),
-                CategoryCard('🔺', 'Shapes', Colors.blue),
-                CategoryCard('📕', 'Stories', Colors.pink),
-                CategoryCard('🎮', 'Games', Colors.indigo),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  final String icon;
-  final String title;
-  final Color color;
-
-  const CategoryCard(this.icon, this.title, this.color, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color.withOpacity(.12),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: color.withOpacity(.2)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 30)),
-          const SizedBox(height: 5),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= LEARN =================
-
-class LearnScreen extends StatelessWidget {
-  const LearnScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          const Text(
-            'Learn 📚',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          LearnCard(
-            title: 'Alphabet',
-            subtitle: 'Learn A to Z',
-            emoji: '🔤',
-            color: Colors.deepPurple,
-            page: const AlphabetScreen(),
-          ),
-          LearnCard(
-            title: 'Numbers',
-            subtitle: 'Learn 1 to 10',
-            emoji: '🔢',
-            color: Colors.teal,
-            page: const NumbersScreen(),
-          ),
-          LearnCard(
-            title: 'Colors',
-            subtitle: 'Learn beautiful colors',
-            emoji: '🎨',
-            color: Colors.orange,
-            page: const ColorsScreen(),
-          ),
-          LearnCard(
-            title: 'Shapes',
-            subtitle: 'Learn basic shapes',
-            emoji: '🔺',
-            color: Colors.blue,
-            page: const ShapesScreen(),
-          ),
-          LearnCard(
-            title: 'Stories',
-            subtitle: 'Fun short stories',
-            emoji: '📖',
-            color: Colors.pink,
-            page: const StoriesScreen(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LearnCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String emoji;
-  final Color color;
-  final Widget page;
-
-  const LearnCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.emoji,
-    required this.color,
-    required this.page,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 14),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(12),
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundColor: color.withOpacity(.15),
-          child: Text(emoji, style: const TextStyle(fontSize: 28)),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => page),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// ================= ALPHABET =================
-
-class AlphabetScreen extends StatefulWidget {
-  const AlphabetScreen({super.key});
-
-  @override
-  State<AlphabetScreen> createState() => _AlphabetScreenState();
-}
-
-class _AlphabetScreenState extends State<AlphabetScreen> {
-  int index = 0;
-
-  final letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  final words = [
-    'Apple',
-    'Ball',
-    'Cat',
-    'Dog',
-    'Elephant',
-    'Fish',
-    'Grapes',
-    'House',
-    'Ice Cream',
-    'Juice',
-    'Kite',
-    'Lion',
-    'Moon',
-    'Nest',
-    'Orange',
-    'Panda',
-    'Queen',
-    'Rabbit',
-    'Sun',
-    'Tiger',
-    'Umbrella',
-    'Van',
-    'Watermelon',
-    'Xylophone',
-    'Yak',
-    'Zebra'
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffEEE5FF),
-      appBar: AppBar(
-        title: const Text('Alphabet'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 25),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 25),
-            padding: const EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  letters[index],
-                  style: const TextStyle(
-                    fontSize: 100,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  words[index],
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 25),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(15),
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: 26,
-              itemBuilder: (_, i) => GestureDetector(
-                onTap: () => setState(() => index = i),
-                child: CircleAvatar(
-                  backgroundColor:
-                      i == index ? Colors.orange : Colors.white,
-                  child: Text(
-                    letters[i],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= NUMBERS =================
-
-class NumbersScreen extends StatelessWidget {
-  const NumbersScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffD9FFF4),
- import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const KidsWorldApp());
-}
-
-class KidsWorldApp extends StatelessWidget {
-  const KidsWorldApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Kids World',
-      theme: ThemeData(
-        fontFamily: 'Arial',
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const SplashScreen(),
-    );
-  }
-}
-
-// ================= SPLASH =================
-
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xff61C8F5), Color(0xffBCEBFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                '🌈',
-                style: TextStyle(fontSize: 70),
-              ),
-              const Text(
-                'KIDS\nWORLD',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                  height: .95,
-                  shadows: [
-                    Shadow(
-                      color: Colors.deepPurple,
-                      blurRadius: 4,
-                      offset: Offset(2, 3),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Learn • Play • Grow',
-                style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepPurple,
-                ),
-              ),
-              const SizedBox(height: 45),
-              const Text(
-                '👦',
-                style: TextStyle(fontSize: 100),
-              ),
-              const SizedBox(height: 35),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const HomeScreen()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(240, 55),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: const Text(
-                  'Get Started',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'I Already Have an Account',
-                style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ================= HOME =================
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int selected = 0;
-
-  final pages = const [
-    HomeContent(),
-    LearnScreen(),
-    GamesScreen(),
-    RewardsScreen(),
-    ProfileScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[selected],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selected,
-        onDestinationSelected: (i) => setState(() => selected = i),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-          NavigationDestination(icon: Icon(Icons.menu_book), label: 'Learn'),
-          NavigationDestination(icon: Icon(Icons.games), label: 'Games'),
-          NavigationDestination(icon: Icon(Icons.emoji_events), label: 'Rewards'),
-          NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= HOME CONTENT =================
-
-class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    'Hello, Ali 👋',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.orange.shade100,
-                  child: const Text('⭐'),
-                )
-              ],
-            ),
-            const Text(
-              "Let's learn something new!",
-              style: TextStyle(color: Colors.grey),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xff138BEA), Color(0xff54B9FF)],
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                children: [
-                  Text('👦', style: TextStyle(fontSize: 65)),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Today's Goal",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Text(
-                          'Learn 5 new things',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 19,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        LinearProgressIndicator(value: .6),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(height: 25),
-            const Text(
-              'Explore Categories',
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 12),
-            GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              children: const [
-                CategoryCard('🔤', 'Alphabet', Colors.purple),
-                CategoryCard('123', 'Numbers', Colors.green),
-                CategoryCard('🎨', 'Colors', Colors.orange),
-                CategoryCard('🔺', 'Shapes', Colors.blue),
-                CategoryCard('📕', 'Stories', Colors.pink),
-                CategoryCard('🎮', 'Games', Colors.indigo),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  final String icon;
-  final String title;
-  final Color color;
-
-  const CategoryCard(this.icon, this.title, this.color, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color.withOpacity(.12),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: color.withOpacity(.2)),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 30)),
-          const SizedBox(height: 5),
-          Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= LEARN =================
-
-class LearnScreen extends StatelessWidget {
-  const LearnScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(18),
-        children: [
-          const Text(
-            'Learn 📚',
-            style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          LearnCard(
-            title: 'Alphabet',
-            subtitle: 'Learn A to Z',
-            emoji: '🔤',
-            color: Colors.deepPurple,
-            page: const AlphabetScreen(),
-          ),
-          LearnCard(
-            title: 'Numbers',
-            subtitle: 'Learn 1 to 10',
-            emoji: '🔢',
-            color: Colors.teal,
-            page: const NumbersScreen(),
-          ),
-          LearnCard(
-            title: 'Colors',
-            subtitle: 'Learn beautiful colors',
-            emoji: '🎨',
-            color: Colors.orange,
-            page: const ColorsScreen(),
-          ),
-          LearnCard(
-            title: 'Shapes',
-            subtitle: 'Learn basic shapes',
-            emoji: '🔺',
-            color: Colors.blue,
-            page: const ShapesScreen(),
-          ),
-          LearnCard(
-            title: 'Stories',
-            subtitle: 'Fun short stories',
-            emoji: '📖',
-            color: Colors.pink,
-            page: const StoriesScreen(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LearnCard extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String emoji;
-  final Color color;
-  final Widget page;
-
-  const LearnCard({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.emoji,
-    required this.color,
-    required this.page,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 14),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(12),
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundColor: color.withOpacity(.15),
-          child: Text(emoji, style: const TextStyle(fontSize: 28)),
-        ),
-        title: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => page),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// ================= ALPHABET =================
-
-class AlphabetScreen extends StatefulWidget {
-  const AlphabetScreen({super.key});
-
-  @override
-  State<AlphabetScreen> createState() => _AlphabetScreenState();
-}
-
-class _AlphabetScreenState extends State<AlphabetScreen> {
-  int index = 0;
-
-  final letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-  final words = [
-    'Apple',
-    'Ball',
-    'Cat',
-    'Dog',
-    'Elephant',
-    'Fish',
-    'Grapes',
-    'House',
-    'Ice Cream',
-    'Juice',
-    'Kite',
-    'Lion',
-    'Moon',
-    'Nest',
-    'Orange',
-    'Panda',
-    'Queen',
-    'Rabbit',
-    'Sun',
-    'Tiger',
-    'Umbrella',
-    'Van',
-    'Watermelon',
-    'Xylophone',
-    'Yak',
-    'Zebra'
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffEEE5FF),
-      appBar: AppBar(
-        title: const Text('Alphabet'),
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 25),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 25),
-            padding: const EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  letters[index],
-                  style: const TextStyle(
-                    fontSize: 100,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  words[index],
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 25),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(15),
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-              ),
-              itemCount: 26,
-              itemBuilder: (_, i) => GestureDetector(
-                onTap: () => setState(() => index = i),
-                child: CircleAvatar(
-                  backgroundColor:
-                      i == index ? Colors.orange : Colors.white,
-                  child: Text(
-                    letters[i],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= NUMBERS =================
-
-class NumbersScreen extends StatelessWidget {
-  const NumbersScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffD9FFF4),
-      appBar: AppBar(
-        title: const Text('Numbers'),
-        backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-        ),
-        itemCount: 10,
-        itemBuilder: (_, i) {
-          final n = i + 1;
-          return Card(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '$n',
-                    style: const TextStyle(
-                      fontSize: 55,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                  Text(
-                    _numberName(n),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
+  void addReward() {
+    setState(() {
+      points += 10;
+      completed++;
+    });
   }
 
-  String _numberName(int n) {
-    const names = [
-      'One',
-      'Two',
-      'Three',
-      'Four',
-      'Five',
-      'Six',
-      'Seven',
-      'Eight',
-      'Nine',
-      'Ten'
+  @override
+  Widget build(BuildContext context) {
+    final cards = [
+      {
+        'title': 'Alphabet',
+        'emoji': '🔤',
+        'color': const Color(0xFFFFD9E8),
+        'page': const AlphabetScreen(),
+      },
+      {
+        'title': 'Numbers',
+        'emoji': '🔢',
+        'color': const Color(0xFFD9F4FF),
+        'page': const NumbersScreen(),
+      },
+      {
+        'title': 'Colors',
+        'emoji': '🎨',
+        'color': const Color(0xFFFFF0C7),
+        'page': const ColorsScreen(),
+      },
+      {
+        'title': 'Shapes',
+        'emoji': '🔺',
+        'color': const Color(0xFFE5DDFF),
+        'page': const ShapesScreen(),
+      },
+      {
+        'title': 'Stories',
+        'emoji': '📚',
+        'color': const Color(0xFFDFF7DD),
+        'page': const StoriesScreen(),
+      },
+      {
+        'title': 'Games',
+        'emoji': '🎮',
+        'color': const Color(0xFFFFDFCF),
+        'page': const GamesScreen(),
+      },
     ];
-    return names[n - 1];
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF9F7FF),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          'Kids World 🌈',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 25,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ProgressScreen(
+                    points: points,
+                    completed: completed,
+                    streak: streak,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _welcomeCard(),
+              const SizedBox(height: 18),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: _statCard(
+                      '⭐',
+                      '$points',
+                      'Points',
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _statCard(
+                      '🔥',
+                      '$streak Days',
+                      'Streak',
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 24),
+
+              const Text(
+                'What do you want to learn? 📚',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: cards.length,
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1.18,
+                ),
+                itemBuilder: (context, index) {
+                  final item = cards[index];
+
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(25),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => item['page'] as Widget,
+                        ),
+                      ).then((_) {
+                        setState(() {});
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: item['color'] as Color,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            item['emoji'] as String,
+                            style: const TextStyle(fontSize: 45),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            item['title'] as String,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 24),
+
+              const Text(
+                'Your Progress 📊',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(.06),
+                      blurRadius: 12,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        const Text(
+                          'Learning completed',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          '$completed / 10',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    LinearProgressIndicator(
+                      value: (completed / 10).clamp(0.0, 1.0),
+                      minHeight: 12,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _welcomeCard() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF6C4BFF),
+            Color(0xFF9D6CFF),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Hello Little Learner! 👋',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          SizedBox(height: 8),
+          Text(
+            'Learn • Play • Grow 🌈',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(
+            'Let’s learn something new today! 🚀',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statCard(
+    String emoji,
+    String value,
+    String title,
+  ) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Row(
+        children: [
+          Text(
+            emoji,
+            style: const TextStyle(fontSize: 30),
+          ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 17,
+                ),
+              ),
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
-// ================= COLORS =================
+// ------------------------------------------------------------
+// ALPHABET
+// ------------------------------------------------------------
+
+class AlphabetScreen extends StatelessWidget {
+  const AlphabetScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const letters = [
+      ['A', '🍎', 'Apple'],
+      ['B', '⚽', 'Ball'],
+      ['C', '🐱', 'Cat'],
+      ['D', '🐶', 'Dog'],
+      ['E', '🐘', 'Elephant'],
+      ['F', '🐟', 'Fish'],
+      ['G', '🍇', 'Grapes'],
+      ['H', '🏠', 'House'],
+      ['I', '🍦', 'Ice Cream'],
+      ['J', '🧃', 'Juice'],
+      ['K', '🪁', 'Kite'],
+      ['L', '🦁', 'Lion'],
+    ];
+
+    return LearningPage(
+      title: 'Alphabet 🔤',
+      subtitle: 'Learn letters and words',
+      child: GridView.builder(
+        padding: const EdgeInsets.all(18),
+        itemCount: letters.length,
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemBuilder: (_, index) {
+          final item = letters[index];
+
+          return LearningCard(
+            color: const Color(0xFFFFE2EE),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  item[0],
+                  style: const TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  item[1],
+                  style: const TextStyle(fontSize: 35),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  item[2],
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------------
+// NUMBERS
+// ------------------------------------------------------------
+
+class NumbersScreen extends StatelessWidget {
+  const NumbersScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LearningPage(
+      title: 'Numbers 🔢',
+      subtitle: 'Let’s count together!',
+      child: GridView.builder(
+        padding: const EdgeInsets.all(18),
+        itemCount: 12,
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemBuilder: (_, index) {
+          final number = index + 1;
+
+          return LearningCard(
+            color: const Color(0xFFDDF5FF),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$number',
+                  style: const TextStyle(
+                    fontSize: 38,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  '⭐' * number.clamp(1, 5),
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ------------------------------------------------------------
+// COLORS
+// ------------------------------------------------------------
 
 class ColorsScreen extends StatelessWidget {
   const ColorsScreen({super.key});
@@ -1084,46 +492,38 @@ class ColorsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = [
       ['Red', Colors.red],
-      ['Orange', Colors.orange],
+      ['Blue', Colors.blue],
       ['Yellow', Colors.yellow],
       ['Green', Colors.green],
-      ['Blue', Colors.blue],
+      ['Orange', Colors.orange],
       ['Purple', Colors.purple],
       ['Pink', Colors.pink],
       ['Brown', Colors.brown],
-      ['Grey', Colors.grey],
-      ['Black', Colors.black],
     ];
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Colors'),
-        backgroundColor: Colors.orange,
-        foregroundColor: Colors.white,
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-        ),
+    return LearningPage(
+      title: 'Colors 🎨',
+      subtitle: 'Learn beautiful colors',
+      child: ListView.builder(
+        padding: const EdgeInsets.all(18),
         itemCount: colors.length,
-        itemBuilder: (_, i) {
+        itemBuilder: (_, index) {
           return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            height: 75,
             decoration: BoxDecoration(
-              color: colors[i][1] as Color,
-              borderRadius: BorderRadius.circular(25),
+              color: colors[index][1] as Color,
+              borderRadius: BorderRadius.circular(22),
             ),
             child: Center(
               child: Text(
-                colors[i][0] as String,
+                colors[index][0] as String,
                 style: TextStyle(
-                  color: i == 2 || i == 8
+                  color: colors[index][0] == 'Yellow'
                       ? Colors.black
                       : Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -1134,72 +534,66 @@ class ColorsScreen extends StatelessWidget {
   }
 }
 
-// ================= SHAPES =================
+// ------------------------------------------------------------
+// SHAPES
+// ------------------------------------------------------------
 
 class ShapesScreen extends StatelessWidget {
   const ShapesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffE2F3FF),
-      appBar: AppBar(
-        title: const Text('Shapes'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
-      ),
-      body: GridView.count(
-        padding: const EdgeInsets.all(20),
-        crossAxisCount: 2,
-        crossAxisSpacing: 15,
-        mainAxisSpacing: 15,
-        children: const [
-          ShapeCard('●', 'Circle', Colors.green),
-          ShapeCard('▲', 'Triangle', Colors.blue),
-          ShapeCard('■', 'Square', Colors.red),
-          ShapeCard('▬', 'Rectangle', Colors.purple),
-          ShapeCard('★', 'Star', Colors.orange),
-          ShapeCard('♥', 'Heart', Colors.pink),
-        ],
+    final shapes = [
+      ['⭕', 'Circle'],
+      ['⬛', 'Square'],
+      ['🔺', 'Triangle'],
+      ['⭐', 'Star'],
+      ['💎', 'Diamond'],
+      ['❤️', 'Heart'],
+    ];
+
+    return LearningPage(
+      title: 'Shapes 🔺',
+      subtitle: 'Can you recognize them?',
+      child: GridView.builder(
+        padding: const EdgeInsets.all(18),
+        itemCount: shapes.length,
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemBuilder: (_, index) {
+          return LearningCard(
+            color: const Color(0xFFE9E2FF),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  shapes[index][0],
+                  style: const TextStyle(fontSize: 50),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  shapes[index][1],
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 }
 
-class ShapeCard extends StatelessWidget {
-  final String shape;
-  final String name;
-  final Color color;
-
-  const ShapeCard(this.shape, this.name, this.color, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            shape,
-            style: TextStyle(
-              fontSize: 75,
-              color: color,
-            ),
-          ),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ================= STORIES =================
+// ------------------------------------------------------------
+// STORIES
+// ------------------------------------------------------------
 
 class StoriesScreen extends StatelessWidget {
   const StoriesScreen({super.key});
@@ -1207,135 +601,114 @@ class StoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stories = [
-      ['🦁', 'The Lion and the Mouse'],
-      ['🐢', 'The Tortoise and the Hare'],
-      ['🐜', 'The Ant and the Grasshopper'],
-      ['🐑', 'The Boy and the Wolf'],
+      ['🐰', 'The Little Bunny', 'A cute bunny learns to share.'],
+      ['🦁', 'Brave Little Lion', 'A little lion discovers courage.'],
+      ['🐻', 'The Friendly Bear', 'A bear makes a new friend.'],
+      ['🐢', 'Slow and Steady', 'A turtle learns never to give up.'],
     ];
 
-    return Scaffold(
-      backgroundColor: const Color(0xffffe5f1),
-      appBar: AppBar(
-        title: const Text('Stories'),
-        backgroundColor: Colors.pink,
-        foregroundColor: Colors.white,
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(15),
+    return LearningPage(
+      title: 'Stories 📚',
+      subtitle: 'Fun stories for little learners',
+      child: ListView.builder(
+        padding: const EdgeInsets.all(18),
         itemCount: stories.length,
-        itemBuilder: (_, i) {
+        itemBuilder: (_, index) {
           return Card(
-            margin: const EdgeInsets.only(bottom: 12),
+            margin: const EdgeInsets.only(bottom: 14),
             child: ListTile(
-              contentPadding: const EdgeInsets.all(12),
+              contentPadding: const EdgeInsets.all(14),
               leading: Text(
-                stories[i][0],
-                s     appBar: AppBar(
-        title: const Text('Numbers'),
-        backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-        ),
-        itemCount: 10,
-        itemBuilder: (_, i) {
-          final n = i + 1;
-          return Card(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '$n',
-                    style: const TextStyle(
-                      fontSize: 55,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                  Text(
-                    _numberName(n),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+                stories[index][0],
+                style: const TextStyle(fontSize: 42),
               ),
+              title: Text(
+                stories[index][1],
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              subtitle: Text(stories[index][2]),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text(stories[index][1]),
+                    content: Text(
+                      '${stories[index][2]}\n\n'
+                      'Once upon a time, there was a very happy little friend. '
+                      'Every day they learned something new and helped others. '
+                      'The end! 🌈',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Great! ⭐'),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           );
         },
       ),
     );
   }
-
-  String _numberName(int n) {
-    const names = [
-      'One',
-      'Two',
-      'Three',
-      'Four',
-      'Five',
-      'Six',
-      'Seven',
-      'Eight',
-      'Nine',
-      'Ten'
-    ];
-    return names[n - 1];
-  }
 }
 
-// ================= COLORS =================
+// ------------------------------------------------------------
+// GAMES
+// ------------------------------------------------------------
 
-class ColorsScreen extends StatelessWidget {
-  const ColorsScreen({super.key});
+class GamesScreen extends StatefulWidget {
+  const GamesScreen({super.key});
+
+  @override
+  State<GamesScreen> createState() => _GamesScreenState();
+}
+
+class _GamesScreenState extends State<GamesScreen> {
+  String answer = '';
+  bool correct = false;
+
+  void choose(String value) {
+    setState(() {
+      answer = value;
+      correct = value == 'Red';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final colors = [
-      ['Red', Colors.red],
-      ['Orange', Colors.orange],
-      ['Yellow', Colors.yellow],
-      ['Green', Colors.green],
-      ['Blue', Colors.blue],
-      ['Purple', Colors.purple],
-      ['Pink', Colors.pink],
-      ['Brown', Colors.brown],
-      ['Grey', Colors.grey],
-      ['Black', Colors.black],
-    ];
-
     return Scaffold(
+      backgroundColor: const Color(0xFFF9F7FF),
       appBar: AppBar(
-        title: const Text('Colors'),
-        backgroundColor: Colors.orange,
-        foregroundColor: Colors.white,
-      ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
+        title: const Text(
+          'Learning Game 🎮',
+          style: TextStyle(fontWeight: FontWeight.w900),
         ),
-        itemCount: colors.length,
-        itemBuilder: (_, i) {
-          return (
-            decoration: BoxDecoration(
-              color: colors[i][1] as Color,
-              borderRadius: BorderRadius.circular(25),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(22),
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            const Text(
+              'Which one is RED? ❤️',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+              ),
+              textAlign: TextAlign.center,
             ),
-            child: Center(
-              child: Text(
-                colors[i][0] as String,
-                style: TextStyle(
-                  color: i == 2 || i == 8
-                      ? Colors.black
-                      : Colors.white,
+            const SizedBox(height: 35),
 
+            _gameButton('🔴', 'Red'),
+            _gameButton('🔵', 'Blue'),
+            _gameButton('🟢', 'Green'),
+            _gameButton('🟡', 'Yellow'),
+
+            const 
