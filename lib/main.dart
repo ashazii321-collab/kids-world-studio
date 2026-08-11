@@ -18,7 +18,7 @@ class KidsWorldApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6C4BFF),
         ),
-      ),
+      ), I 
       home: const HomeScreen(),
     );
   }
