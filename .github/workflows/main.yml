@@ -1,3 +1,4 @@
+
 name: Build Android APK
 
 on:
@@ -13,8 +14,11 @@ jobs:
 
       - name: Extract Flutter project
         run: |
-          unzip -o kids-world-studio-flutter.zip -d project
-          PROJECT_DIR=$(find project -name pubspec.yaml -printf '%h\n' | head -1)
+          unzip -o kids-world-studio-flutter.zip -d source
+
+      - name: Find Flutter project
+        run: |
+          PROJECT_DIR=$(find source -name pubspec.yaml -printf '%h\n' | head -1)
           echo "PROJECT_DIR=$PROJECT_DIR" >> $GITHUB_ENV
 
       - name: Setup Flutter
@@ -23,14 +27,22 @@ jobs:
           flutter-version: '3.32.8'
           channel: stable
 
-      - name: Create Android project
+      - name: Create fresh Android project
         run: |
-          cd "$PROJECT_DIR"
-          flutter create . --platforms=android
+          flutter create --platforms=android kids_world_app
+
+      - name: Copy app files
+        run: |
+          cp -r "$PROJECT_DIR/lib" kids_world_app/
+          cp "$PROJECT_DIR/pubspec.yaml" kids_world_app/
+
+          if [ -d "$PROJECT_DIR/assets" ]; then
+            cp -r "$PROJECT_DIR/assets" kids_world_app/
+          fi
 
       - name: Build APK
         run: |
-          cd "$PROJECT_DIR"
+          cd kids_world_app
           flutter pub get
           flutter build apk --release
 
@@ -38,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kids-world-studio-apk
-          path: ${{ env.PROJECT_DIR }}/build/app/outputs/flutter-apk/app-release.apk
+          path: kids_world_app/build/app/outputs/flutter-apk/app-release.apk
